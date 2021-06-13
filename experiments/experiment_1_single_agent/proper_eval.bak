@@ -1,0 +1,62 @@
+import pickle
+from simulation.main.Simulation import SingleAgentSimulation
+from experiments.eval import eval_on_special_levels
+def get_q_learning_names_pickles():
+    names = []
+    pickles = []
+    for i in range(10):
+        eps = 4000 * i * 5;
+        names.append(f"SimpleQ Steps {eps}")
+        pickles.append(f'./pickles/experiment1/SimpleQ/test2/RL_Q_04-27-2021_10-58-43_steps_{eps}.p')
+    names.append("Steps 1e6")
+    pickles.append('./pickles/experiment1/SimpleQ/test2/RL_Q_04-27-2021_10-58-43_steps_996000.p')
+    return names, pickles
+
+def get_evol_good_names_pickles():
+    names = ['Gen 1', "Gen 6", "Gen 11", 'Gen 15']
+    pickles = [
+        'pickles/experiment1/evolutionary/test3_40pop/04-27-2021_10-25-24_-3882_gen_1_step_160000.p',
+        'pickles/experiment1/evolutionary/test3_40pop/04-27-2021_11-25-20_-2486_gen_6_step_960000.p',
+        'pickles/experiment1/evolutionary/test3_40pop/04-27-2021_12-31-03_-8487_gen_11_step_1760000.p',
+        'pickles/experiment1/evolutionary/test3_40pop/04-27-2021_13-12-16_-56897_gen_15_step_2400000.p'
+    ]
+    return names, pickles
+
+def get_averages(dic, dic_foods):
+    ans1 = {}
+    ans2 = {}
+    for k, v in dic.items():
+        ans1[k] = sum(v) / len(v) / SingleAgentSimulation.OOB_REWARD
+    
+    for k, v in dic_foods.items():
+        ans2[k] = sum(v) / len(v)
+    return ans1, ans2
+
+def eval_GA_and_QL():
+    ANS = {}
+    all_data = [get_q_learning_names_pickles(), get_evol_good_names_pickles()]
+    all_names = ["Simple Q", "Evolutionary"]
+    for N, D in zip(all_names, all_data):
+        names, pickles = D
+        little_dict = {}
+        for name, p in zip(names, pickles):
+            print(f"Name = {name}")
+            with open(p, 'rb') as f:
+                dic = pickle.load(f)
+                agent = dic['agent']
+                answer = eval_on_special_levels(agent, 2, 4000)
+                answer2 = get_averages(*answer)
+                print('Obst hit: ', answer2[0])
+                print('Food col: ', answer2[1])
+                little_dict[name] = (answer, answer2)
+            print("")
+        ANS[N] = little_dict
+    return ANS
+            
+
+def main():
+
+
+
+if __name__ == "__main__":
+    main()
