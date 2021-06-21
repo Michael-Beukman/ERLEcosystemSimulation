@@ -78,7 +78,7 @@ The main agent/learning code is inside `agent/`
 │   ├── experiment_6                    -> Bias vs not
 │   └── experiment_multi_agent          -> Multi agent sim
 ├── main.py                             -> Run this to see the simulation in action
-├── notebooks
+├── notebooks                           -> Some data visualisation, gifs and a short notebook.
 │   ├── DataViz.ipynb
 │   └── gifs
 ├── pickles                             -> Where we stored most of our results. This was quite large, so we basically emptied it.
