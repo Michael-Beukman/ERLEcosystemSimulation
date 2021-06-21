@@ -8,7 +8,6 @@ import numpy as np
 import os
 from simulation.multi_agent_sim.hardcode_agents.HardCodeAgents import *
 from simulation.multi_agent_sim.MultiStateRep import MultiAgentStateRep
-# from simulation.multi_agent_sim.MultiAgentSimulation import MultiAgentSimulation
 from simulation.discrete_ma_sim.discrete_multi_agent_sim import DiscreteMultiAgentSimulation
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -27,7 +26,6 @@ npred_hard,
     n_foods = 100
     d = dict(
         size=64,
-        # n_preds=npred, n_preys=n_preys,
         n_foods=n_foods,
         n_preds={
             'erl': npred_erl,
@@ -40,9 +38,7 @@ npred_hard,
         },
         entity_lifetimes={
             EntityType.FOOD: float('inf'),
-            # float('inf'), # 4000*100,
             EntityType.PREY: 300,
-            # float('inf'), #4000*100,
             EntityType.PREDATOR: 600
         },
         entity_energy_to_reproduce={
@@ -97,8 +93,8 @@ npred_hard,
 
         all_the_data['food'].append(len(sim.foods))
 
-    # npred_erl, npred_rando, npred_hard,
     def save(data):
+        # Saves this
         name = f"erl_{nerl}_rando_{nrando}_hard_{nhard}_{npred_erl}_{npred_rando}_{npred_hard}"
         d = f'./pickles/experiment_multi_agent_test/proper_exps/v6_proper_simple/preys_pred/{name}/{seed}/{datetime.datetime.now().strftime("%m-%d-%Y_%H-%M-%S")}'
         n = f'{d}/data.p'
@@ -107,8 +103,8 @@ npred_hard,
             pickle.dump({'data': data, 'args': d}, f)
     save(all_the_data)
 
-def meep_main(seed):
-    # print(f"SEED = {seed}"); exit()
+def runner(seed):
+    # Here are some potential experiments that you could run.
     if 0:
         nums = [0, 5]
         for nerl in nums:
@@ -128,29 +124,7 @@ def meep_main(seed):
                                 npred_rando = nrando,
                                 npred_hard = nhard,
                                 )
-    """
-    n_foods=n_foods,
-        n_preds={
-            'erl': 10,
-            'random': 10,
-            'hard': 0
-        }, n_preys={
-            'erl': 10,
-            'random': 10,
-            'hard': 10
-        },
-        entity_lifetimes={
-            EntityType.FOOD: float('inf'),
-            # float('inf'), # 4000*100,
-            EntityType.PREY: 300,
-            # float('inf'), #4000*100,
-            EntityType.PREDATOR: 600
-        },
-        entity_energy_to_reproduce={
-            EntityType.PREY: 1200,
-            EntityType.PREDATOR: 1200
-        },
-    """
+    # This runs an experiment for these initial parameters and saves the result.
     main(seed, nerl=10, nrando=10, nhard=10, # prey
             #  pred
             npred_erl = 10,
@@ -159,4 +133,4 @@ def meep_main(seed):
             )
 
 if __name__ == '__main__':
-    fire.Fire(meep_main)
+    fire.Fire(runner)

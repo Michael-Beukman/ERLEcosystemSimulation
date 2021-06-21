@@ -90,10 +90,6 @@ def train(
         agent, train_rewards = EvolTrainer.proper_train(
             BasicPop(POP_SIZE, num_steps=4000), "GA", train_model_dir, num_steps)
     elif method == "ERL":
-        # file = glob.glob(f"pickles/experiment_6/proper_v6/{seed}/ERL/10000000.0/50/alpha_0.05__gamma_1__lambd_0__eps_init_0.1__eps_min_0.02__eps_decay_0.999/*/models/*_ERL_whole_pop_gen_40_step_8000000.p")[0]
-        # print("FILE = ", file)
-        # with open(file, 'rb') as f:
-        #     pop = pickle.load(f)['pop']
         pop = ErlPopulation(POP_SIZE, args = args, num_steps=4000)
         print("POPULATION GEN COUNT = ", pop.gen_count)
         print("Feature size", pop.population[0].weights.shape)
@@ -111,8 +107,7 @@ def train(
         }, f)
 
     # Now we need to do evaluation.
-    # for eps in 
-    
+
     # can I end the loop after one epsilon? (e.g. GA, PPO that don't have epsilon)
     can_stop = False
     for eps in [0, 0.05]:
